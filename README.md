@@ -1,6 +1,9 @@
 # MiFish
 This is the command line version of MiFish pipeline. It can also be used with any other eDNA meta-barcoding primers
 
+# Citation
+Sato, Y., Miya, M., Fukunaga, T., Sado, T., & Iwasaki, W. (2018). MitoFish and MiFish pipeline: a mitochondrial genome database of fish with an analysis pipeline for environmental DNA metabarcoding. Molecular biology and evolution, 35(6), 1553-1555.
+
 # External Dependencies
 Add these softwares to your system PATH. You can download all the external executable files [here](http://mitofish.aori.u-tokyo.ac.jp/species/detail/download/?filename=download/external_bin.zip), or compile by yourself.
 * [fastp](https://github.com/OpenGene/fastp) (v0.23.2)
