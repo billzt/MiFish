@@ -2,8 +2,8 @@
 This is the command line version of MiFish pipeline. It can also be used with any other eDNA meta-barcoding primers
 
 # External Dependencies
-Add these softwares to your system PATH
-* [fastp](https://github.com/OpenGene/fastp)
+Add these softwares to your system PATH. You can download all the external executable files [here](http://mitofish.aori.u-tokyo.ac.jp/species/detail/download/?filename=download/external_bin.zip), or compile by yourself.
+* [fastp](https://github.com/OpenGene/fastp) (v0.23.2)
 * [FLASH](http://ccb.jhu.edu/software/FLASH/) (v1.2.7)
 * [seqkit](https://github.com/shenwei356/seqkit/) (v2.3.0)
 * [usearch](https://www.drive5.com/usearch/) (v11.0.667)
