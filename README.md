@@ -1,8 +1,14 @@
 # MiFish
 This is the command line version of MiFish pipeline. It can also be used with any other eDNA meta-barcoding primers
 
-# Citation
-Sato, Y., Miya, M., Fukunaga, T., Sado, T., & Iwasaki, W. (2018). MitoFish and MiFish pipeline: a mitochondrial genome database of fish with an analysis pipeline for environmental DNA metabarcoding. Molecular biology and evolution, 35(6), 1553-1555.
+# References
+If you use MiFish Pipeline in your projects, please cite:
+* Sato Y, Miya M, Fukunaga T, Sado T, Iwasaki W. 2018. MitoFish and MiFish Pipeline: A Mitochondrial Genome Database of Fish with an Analysis Pipeline for Environmental DNA Metabarcoding. *Mol Biol Evol* 35:1553-1555.
+* Iwasaki W, Fukunaga T, Isagozawa R, Yamada K, Maeda Y, Satoh TP, Sado T,
+Mabuchi K, Takeshima H, Miya M, et al. 2013. MitoFish and MitoAnnotator: a mitochondrial genome database of fish with an accurate and automatic annotation pipeline. *Mol Biol Evol* 30:2531-2540.
+
+If you use MiFish Primers in your projects, please cite:
+* Miya M, Sato Y, Fukunaga T, Sado T, Poulsen JY, Sato K, Minamoto T, Yamamoto S, Yamanaka H, Araki H, et al. 2015. MiFish, a set of universal PCR primers for metabarcoding environmental DNA from fishes: detection of more than 230 subtropical marine species. *R Soc Open Sci* 2:150088.
 
 # External Dependencies
 Add these softwares to your system PATH. You can download all the external executable files [here](http://mitofish.aori.u-tokyo.ac.jp/species/detail/download/?filename=download/external_bin.zip), or compile by yourself.
