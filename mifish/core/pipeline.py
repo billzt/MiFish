@@ -255,7 +255,7 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
                 poor_alns = []
                 for alignment in blast_record.alignments:
                     hsp = alignment.hsps[0]
-                    aln_len = alignment.length
+                    aln_len = hsp.align_length
                     identity = hsp.identities/aln_len
                     if identity >= blast_identity/100:
                         good_alns.append(alignment)
@@ -263,10 +263,10 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
                         poor_alns.append(alignment)
                         break
                 for alignment in good_alns:
-                    aln_len = alignment.length
                     hit = alignment.hit_def
                     species_name = hit.split('|')[2].replace(':', '_')
                     hsp = alignment.hsps[0]
+                    aln_len = hsp.align_length
                     identity = hsp.identities/aln_len
                     mismatch = aln_len - hsp.identities
                     if len(top_hit) == 0:
@@ -286,10 +286,10 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
                             'confidence':calcConfidence(LOD_score, top_hit['identity']), 'size':size})
                 if len(good_alns) == 0:
                     for alignment in poor_alns:
-                        aln_len = alignment.length
                         hit = alignment.hit_def
                         species_name = hit.split('|')[2].replace(':', '_')
                         hsp = alignment.hsps[0]
+                        aln_len = hsp.align_length
                         identity = hsp.identities/aln_len
                         mismatch = aln_len - hsp.identities
                         low_hit_amplicons.append({'sample': sample_name, 'query':query, 'species_name':species_name, 'aln_len':aln_len, \
