@@ -223,6 +223,14 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
         sizeFasIntegrator.run(zotusCountFile=f'{workdir_sample}/03_haploid/{sample_name}.zotus.size.txt', \
             zotusFaFile=f'{workdir_sample}/03_haploid/{sample_name}.zotus.fasta', \
                 resultFile=f'{workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta')
+        if os.path.getsize(f'{workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta') == 0:
+            # This sample has no haploids
+            current_message = f'Sample {sample_name} has no haploids. Skip'
+            if debug==True:
+                print(current_message, file=sys.stderr)
+            else:
+                time.sleep(1)
+            continue
         os.system(f'usearch -sortbysize {workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta \
             -fastaout {workdir_sample}/03_haploid/{sample_name}.sortsize.fasta -threads {cpu} \
                 >{workdir_sample}/03_haploid/{sample_name}.sortbysize.log 2>&1')
@@ -406,7 +414,7 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
 
     # QC HTML, NWK Tree
     os.system(f'zip -j {workdir}/MiFishResult/QC.zip {workdir}/MiFishResult/Sample-*/01_filter_fastq_and_merge/*.html')
-    if simple_result == False and stat_data['species_num'] > 3:
+    if simple_result == False and 'species_num' in stat_data and stat_data['species_num'] > 3:
         os.system(f'zip -j {workdir}/MiFishResult/tree.zip {workdir}/MiFishResult/Sample-*/05_MSA/*.nwk {workdir}/MiFishResult/Sample-*/05_MSA/*.svg')
 
     current_task = 'Finished'
