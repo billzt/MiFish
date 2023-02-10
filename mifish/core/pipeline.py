@@ -291,7 +291,7 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
                         species2amplicon[top_hit['species_name']] = []
                     species2amplicon[top_hit['species_name']].append({'top_hit':top_hit, \
                         'second_hit':second_hit, 'LOD_score':LOD_score, \
-                            'confidence':calcConfidence(LOD_score, top_hit['identity']), 'size':size})
+                            'confidence':calcConfidence(LOD_score, top_hit['identity']), 'size':size, 'query':query})
                 if len(good_alns) == 0:
                     for alignment in poor_alns:
                         hit = alignment.hit_def

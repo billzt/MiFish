@@ -166,14 +166,14 @@ def taxonomy(workdir:str, sample2type:dict):
     # List of Sample Details
     worksheet = workbook.add_worksheet('List of Sample Details')
     
-    headers = 'Sample name	Species	Total read	Representative Sequence	Size	Confidence	Identity(%)	LOD Score	Align Len	Mismatch	2nd-sp Name	2nd-sp Align Len	2nd-sp Mismatch	Sequence'.split('\t')
+    headers = 'Sample name	Species	Total read	Representative Sequence	Haploid ID	Size	Confidence	Identity(%)	LOD Score	Align Len	Mismatch	2nd-sp Name	2nd-sp Align Len	2nd-sp Mismatch	Sequence'.split('\t')
     worksheet.set_column(0,0,30)
     worksheet.set_column(1,1,25)
     worksheet.set_column(2,2,10)
     worksheet.set_column(3,3,30)
-    worksheet.set_column(4,9,10)
-    worksheet.set_column(10,10,25)
-    worksheet.set_column(11,13,15)
+    worksheet.set_column(4,10,10)
+    worksheet.set_column(11,11,25)
+    worksheet.set_column(12,14,15)
     for col in range(len(headers)):
         worksheet.write(0, col, headers[col], header_format)
     
@@ -205,24 +205,25 @@ def taxonomy(workdir:str, sample2type:dict):
                     worksheet.write(row+1, 2, tax_info['total_read'], body_format)
                     worksheet.write(row+1, 3, tax_info['representative_seq'], body_format)
                 for haploid in haploids:
-                    worksheet.write(row+1, 4, haploid['size'], body_format)
-                    worksheet.write(row+1, 5, haploid['confidence'], body_format)
-                    worksheet.write(row+1, 6, float('{0:.2f}'.format(haploid['top_hit']['identity']*100)), body_format)
+                    worksheet.write(row+1, 4, haploid['query'], body_format)
+                    worksheet.write(row+1, 5, haploid['size'], body_format)
+                    worksheet.write(row+1, 6, haploid['confidence'], body_format)
+                    worksheet.write(row+1, 7, float('{0:.2f}'.format(haploid['top_hit']['identity']*100)), body_format)
                     if haploid['LOD_score'] != '':
-                        worksheet.write(row+1, 7, float('{0:.2f}'.format(haploid['LOD_score'])), body_format)
+                        worksheet.write(row+1, 8, float('{0:.2f}'.format(haploid['LOD_score'])), body_format)
                     else:
-                        worksheet.write(row+1, 7, '', body_format)
-                    worksheet.write(row+1, 8, haploid['top_hit']['aln_len'], body_format)
-                    worksheet.write(row+1, 9, haploid['top_hit']['mismatch'], body_format)
+                        worksheet.write(row+1, 8, '', body_format)
+                    worksheet.write(row+1, 9, haploid['top_hit']['aln_len'], body_format)
+                    worksheet.write(row+1, 10, haploid['top_hit']['mismatch'], body_format)
                     if len(haploid['second_hit']) > 0:
-                        worksheet.write(row+1, 10, haploid['second_hit']['species_name'].replace('_', ' '), body_format)
-                        worksheet.write(row+1, 11, haploid['second_hit']['aln_len'], body_format)
-                        worksheet.write(row+1, 12, haploid['second_hit']['mismatch'], body_format)
+                        worksheet.write(row+1, 11, haploid['second_hit']['species_name'].replace('_', ' '), body_format)
+                        worksheet.write(row+1, 12, haploid['second_hit']['aln_len'], body_format)
+                        worksheet.write(row+1, 13, haploid['second_hit']['mismatch'], body_format)
                     else:
-                        worksheet.write(row+1, 10, '', body_format)
                         worksheet.write(row+1, 11, '', body_format)
                         worksheet.write(row+1, 12, '', body_format)
-                    worksheet.write(row+1, 13, haploid['top_hit']['seq'], body_format)
+                        worksheet.write(row+1, 13, '', body_format)
+                    worksheet.write(row+1, 14, haploid['top_hit']['seq'], body_format)
                     row += 1
         row += 1
     
