@@ -65,7 +65,11 @@ def main():
             print(f'Error: no {external_bin} in your system', file=sys.stderr)
             exit(1)
 
-    os.system(f'mkdir {args.output_dir}/MiFishResult {args.output_dir}/MiFishResult/data')
+    if os.path.isdir(args.output_dir) is False:
+        os.system(f'mkdir {args.output_dir}')
+    if os.path.isdir(f'{args.output_dir}/MiFishResult') is False:
+        os.system(f'mkdir {args.output_dir}/MiFishResult')
+    os.system(f'mkdir {args.output_dir}/MiFishResult/data')
 
     rm_p_3 = str(Seq(args.primer_rev).reverse_complement())
 
