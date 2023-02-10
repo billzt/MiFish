@@ -42,7 +42,7 @@ def calcConfidence(LOD_score, identity:float)->str:
 def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max_read_length=254, \
     rm_p_5='GTCGGTAAAACTCGTGCCAGC', rm_p_3='CAAACTGGGATTAGATACCCCACTATG',\
         blast_identity=97.0, current_task='', current_message='', debug=True, simple_result=False, \
-            workdir='.', cpu=2, db='mifishdb.fa'):
+            workdir='.', cpu=2, db='mifishdb.fa', unoise_min=8, keep_tmp=False):
 
     all_species = {}
     low_hit_amplicons = []
@@ -205,7 +205,7 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
                 >{workdir_sample}/03_haploid/{sample_name}.fastx_uniques.log 2>&1')
         os.system(f'usearch -unoise3 {workdir_sample}/03_haploid/{sample_name}.derep.fasta \
             -zotus {workdir_sample}/03_haploid/{sample_name}.zotus.fasta -threads {cpu} \
-                -tabbedout {workdir_sample}/03_haploid/{sample_name}.zotus.details.txt \
+                -tabbedout {workdir_sample}/03_haploid/{sample_name}.zotus.details.txt -minsize {unoise_min} \
                     >{workdir_sample}/03_haploid/{sample_name}.unoise3.log 2>&1')
         if os.path.isfile(f'{workdir_sample}/03_haploid/{sample_name}.zotus.details.txt') is None \
             or os.path.getsize(f'{workdir_sample}/03_haploid/{sample_name}.zotus.details.txt')==0:
@@ -420,4 +420,6 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
     current_task = 'Finished'
 
     # Remove unnecessary files
-    os.system(f'rm -rf {workdir}/MiFishResult/poor_alignment.json {workdir}/MiFishResult/species_meta.json {workdir}/MiFishResult/Sample-*')
+    if keep_tmp is False:
+        os.system(f'rm -rf {workdir}/MiFishResult/poor_alignment.json {workdir}/MiFishResult/species_meta.json {workdir}/MiFishResult/Sample-*')
+        os.system(f'rm -rf {workdir}/MiFishResult/data')
