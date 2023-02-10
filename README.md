@@ -11,7 +11,7 @@ If you use MiFish Primers in your projects, please cite:
 * Miya M, Sato Y, Fukunaga T, Sado T, Poulsen JY, Sato K, Minamoto T, Yamamoto S, Yamanaka H, Araki H, et al. 2015. MiFish, a set of universal PCR primers for metabarcoding environmental DNA from fishes: detection of more than 230 subtropical marine species. *R Soc Open Sci* 2:150088.
 
 # External Dependencies
-Add these softwares to your system PATH. You can download all the external executable files [here](http://mitofish.aori.u-tokyo.ac.jp/species/detail/download/?filename=download/external_bin.zip), or compile by yourself.
+Add these softwares to your system PATH. You can download all the external executable files [here](http://mitofish.aori.u-tokyo.ac.jp/species/detail/download/?filename=download/external_bin.zip)(except for MAFFT), or compile by yourself.
 * [fastp](https://github.com/OpenGene/fastp) (v0.23.2)
 * [FLASH](http://ccb.jhu.edu/software/FLASH/) (v1.2.7)
 * [seqkit](https://github.com/shenwei356/seqkit/) (v2.3.0)
@@ -126,6 +126,13 @@ If your samples are in multiple groups, please arrange them in different directo
                         Minimum identity (percentage) for filtering BLASTN results (default: 97.0)
 ```
 
+### Threshold of UNOISE3
+```
+  -u UNOISE_MIN, --unoise-min UNOISE_MIN
+                        value for the -minsize option in UNOISE3 (default: 8)
+```
+Decrease this value would get higher sensitivity but lower accuracy.
+
 ### Skip downstream analysis
 ```
   -s, --skip-downstream-analysis
@@ -146,6 +153,12 @@ Default is putting `MiFishResult` under your current directory. If you specify a
                         number of threads for BLASTN and usearch (default: 2)
 ```
 Pass to external programs such as [usearch](https://www.drive5.com/usearch/)
+
+### Keep temporary files
+```
+  -k, --keep-tmp-files  Keep temporary files (default: False)
+```
+Useful for debug. If you encountered problems, turn it on and share me the `Sample-*` directory in the `MiFishResult` directory.
 
 ## Results
 There are six files in the `MiFishResult` directory.
