@@ -14,6 +14,8 @@ def fetch(data_dirs:list, workdir:str)->Tuple[dict, dict]:
         group_name = f'Group{group_rank}'
         group_rank += 1
         for file in glob(f'{data_dir}/*'):
+            if os.path.isdir(file) is True:
+                continue
             if file=='':
                 continue
             name = os.path.basename(file)
