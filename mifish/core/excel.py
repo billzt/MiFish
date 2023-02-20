@@ -147,7 +147,9 @@ def taxonomy(workdir:str, sample2type:dict):
                 worksheet.write(row, 2, family, body_format)
                 worksheet.write(row, 3, tax_name.replace('_', ' '), body_format)
                 worksheet.write(row, 4, '', body_format)
-                worksheet.write(row, 5, '', body_format)
+                abandance_data = compare_data[tax_name].values()
+                average_confidence = max(abandance_data, key=lambda i:i['total_read'])['main_confidence']
+                worksheet.write(row, 5, average_confidence, body_format)
                 worksheet.write(row, 6, '', body_format)
                 worksheet.write(row, 7, '', body_format)
                 worksheet.write(row, 8, '', body_format)
