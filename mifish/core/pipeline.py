@@ -166,7 +166,7 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
         if os.path.isdir(f'{workdir_sample}/02_process_fasta') is False:
             os.makedirs(f'{workdir_sample}/02_process_fasta')
         with open(f'{workdir_sample}/01_filter_fastq_and_merge/{sample_name}.amplicon.fa') as handle:
-            with open(f'{workdir_sample}/02_process_fasta/{sample_name}.filterlen.fa', mode='w') as out_handle:
+            with open(f'{workdir_sample}/02_process_fasta/{sample_name}.excludeN.fa', mode='w') as out_handle:
                 for (title, seq) in SimpleFastaParser(handle):
                     if input_type == 'fa':
                         stat_data['read_num_before_quality_filter'] += 1
@@ -175,23 +175,33 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
                     if 'N' in seq:
                         continue
                     stat_data['read_without_N'] += 1
-                    if min_read_length <= len(seq) <=  max_read_length:
-                        stat_data['read_fit_length'] += 1
-                        print(f'>{title}\n{seq}', file=out_handle)
-        if stat_data['read_fit_length'] < 10:
+                    print(f'>{title}\n{seq}', file=out_handle)
+                    # if min_read_length <= len(seq) <=  max_read_length:
+                    #     stat_data['read_fit_length'] += 1
+                    #     print(f'>{title}\n{seq}', file=out_handle)
+        # if stat_data['read_fit_length'] < 10:
+        #     # This sample has not passed length filter
+        #     current_message = f'Sample {sample_name} has not passed read length filter. Skip'
+        #     if debug==True:
+        #         print(current_message, file=sys.stderr)
+        #     else:
+        #         time.sleep(1)
+        #     continue
+        
+        os.system(f'cutadapt -g "{rm_p_5};max_error_rate=0.15...{rm_p_3};max_error_rate=0.15" --revcomp -j {cpu} \
+            {workdir_sample}/02_process_fasta/{sample_name}.excludeN.fa --discard-untrimmed -m {min_read_length-len(rm_p_5)-len(rm_p_3)} -M {max_read_length-len(rm_p_5)-len(rm_p_3)} \
+                >{workdir_sample}/02_process_fasta/{sample_name}.processed.fa \
+                    2>{workdir_sample}/02_process_fasta/{sample_name}.cut.log')
+        stat_data['read_fit_length'] = int(os.popen(f"grep -c '>' {workdir_sample}/02_process_fasta/{sample_name}.processed.fa").read())
+        if stat_data['read_fit_length'] < 100:
             # This sample has not passed length filter
-            current_message = f'Sample {sample_name} has not passed read length filter. Skip'
+            current_message = f'Sample {sample_name} has not passed read length filter. Only has {stat_data["read_fit_length"]} reads. Skip'
             if debug==True:
                 print(current_message, file=sys.stderr)
             else:
                 time.sleep(1)
             continue
-        
-        os.system(f'cutadapt -g "{rm_p_5};max_error_rate=0.15...{rm_p_3};max_error_rate=0.15" --revcomp -j {cpu} \
-            {workdir_sample}/02_process_fasta/{sample_name}.filterlen.fa \
-                >{workdir_sample}/02_process_fasta/{sample_name}.processed.fa \
-                    2>{workdir_sample}/02_process_fasta/{sample_name}.cut.log')
-        
+
         # Step 3: De-noise and generate haploid
         current_task = f'Sample {sample_name} Step 3: De-noise and generate haploid'
         if debug==True:
@@ -244,7 +254,7 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
         if os.path.isdir(f'{workdir_sample}/04_blast') is False:
             os.makedirs(f'{workdir_sample}/04_blast')
         os.system(f'blastn -num_threads {cpu} -query {workdir_sample}/03_haploid/{sample_name}.sortsize.fasta -db {db} \
-            -max_target_seqs 5 -evalue 0.00001 -outfmt 5 \
+            -max_target_seqs 5 -evalue 0.00001 -outfmt 5 -qcov_hsp_perc 90 \
                 -out {workdir_sample}/04_blast/{sample_name}.xml')
         query_seq_obj = {}
         with open(f'{workdir_sample}/03_haploid/{sample_name}.sortsize.fasta') as handle:
