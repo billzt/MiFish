@@ -170,10 +170,10 @@ tree.zip (if not using -s)
 relative_abandance.json  (if not using -s)
 diversity.json  (if not using -s but using -d)
 ```
-The first four files are the same as the web version of [MiFish](http://mitofish.aori.u-tokyo.ac.jp/mifish/).
+The first four files are the same as the web version of [MiFish](http://mitofish.aori.u-tokyo.ac.jp/mifish/). (Screenshots were from DRR126155 against refDB v3.83)
 
-![QC](https://user-images.githubusercontent.com/1146090/213399391-723d32b7-6aac-4104-a13d-f357ccc20ffd.jpg)
-![species](https://user-images.githubusercontent.com/1146090/213399450-384bd293-fb84-46d3-875e-0da5717a2754.jpg)
+![QC](https://user-images.githubusercontent.com/1146090/219991073-45f3be06-7610-47fa-9ab3-026711a14114.jpg)
+![Species](https://user-images.githubusercontent.com/1146090/219991113-e4dd08ad-ecc2-444a-ad55-d97dd22105de.jpg)
 ![tree](https://user-images.githubusercontent.com/1146090/213399478-8265f554-02d7-4882-ba2b-75789ddf732d.jpg)
 
 # An example on using other eDNA primers
