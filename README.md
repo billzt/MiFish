@@ -99,7 +99,7 @@ Following optional parameters are designed for MiFish metabarcoding primers. If 
   -M MAX_READ_LEN, --max-read-len MAX_READ_LEN
                         Maximum read length(bp) (default: 254)
 ```
-adjust them to satisfy your reads. If uncertain, set `-m 0 -M 99999` to keep all the reads
+The range of amplicon lengths (**including primers**). Adjust them to satisfy your own primers. You can estimate the range of  from your reference database file.
 
 ### Primer sequences
 ```
