@@ -179,3 +179,12 @@ The first four files are the same as the web version of [MiFish](http://mitofish
 # An example on using other eDNA primers
 
 See [Riaz](https://github.com/billzt/MiFish/blob/main/Riaz.md)
+
+# Tips
+1. Please make sure that in the same run (sample), names of reads start with an identitcal word, such as:
+```
+@DRR231392.1
+@DRR231392.2
+@DRR231392.3
+```
+Otherwise `usearch` cannot work properly.
