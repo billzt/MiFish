@@ -18,6 +18,8 @@ def fetch(data_dirs:list, workdir:str)->Tuple[dict, dict]:
                 continue
             if file=='':
                 continue
+            if file.endswith('.gz') is False and file.endswith('.bz2') is False and file.endswith('.xz') is False:
+                continue
             name = os.path.basename(file)
             name2file[name] = file
             file_extension = os.path.splitext(name)[1]  # e.g: .gz, .bz2, .xz
