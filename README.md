@@ -4,7 +4,7 @@ This is the command line version of MiFish pipeline. It can also be used with an
 # References
 If you use MiFish Pipeline in your projects, please cite:
 * Zhu T, Sato Y, Sado T, Miya M, and Iwasaki W. 2023. MitoFish, MitoAnnotator, and MiFish Pipeline: Updates in ten years.
-*Mol Biol Evol*, published online. https://doi.org/10.1093/molbev/msad035
+*Mol Biol Evol*, 40:msad035. https://doi.org/10.1093/molbev/msad035
 * Sato Y, Miya M, Fukunaga T, Sado T, Iwasaki W. 2018. MitoFish and MiFish Pipeline: A Mitochondrial Genome Database of Fish with an Analysis Pipeline for Environmental DNA Metabarcoding. *Mol Biol Evol* 35:1553-1555.
 * Iwasaki W, Fukunaga T, Isagozawa R, Yamada K, Maeda Y, Satoh TP, Sado T,
 Mabuchi K, Takeshima H, Miya M, et al. 2013. MitoFish and MitoAnnotator: a mitochondrial genome database of fish with an accurate and automatic annotation pipeline. *Mol Biol Evol* 30:2531-2540.
