@@ -1,3 +1,4 @@
+![favicon](https://user-images.githubusercontent.com/1146090/224640993-186457d3-6820-4d38-97cb-ae8ce4f4c114.png)
 # MiFish
 This is the command line version of MiFish pipeline. It can also be used with any other eDNA meta-barcoding primers
 
