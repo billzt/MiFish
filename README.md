@@ -184,7 +184,7 @@ The first four files are the same as the web version of [MiFish](http://mitofish
 See [Riaz](https://github.com/billzt/MiFish/blob/main/Riaz.md)
 
 # Tips
-1. Please make sure that in the same run (sample), names of reads start with an identitcal word, such as:
+1. Please make sure that in a FASTQ/FASTA file, names of reads should start with an identitcal word, such as:
 ```
 @DRR231392.1
 @DRR231392.2
