@@ -18,7 +18,10 @@ Mabuchi K, Takeshima H, Miya M, et al. 2013. MitoFish and MitoAnnotator: a mitoc
 If you use MiFish Primers in your projects, please cite:
 * Miya M, Sato Y, Fukunaga T, Sado T, Poulsen JY, Sato K, Minamoto T, Yamamoto S, Yamanaka H, Araki H, et al. 2015. MiFish, a set of universal PCR primers for metabarcoding environmental DNA from fishes: detection of more than 230 subtropical marine species. *R Soc Open Sci* 2:150088.
 
-# External Dependencies
+# Install
+Currently we only support Linux. Please use conda to manage the environment. If you do not have a Linux OS, or you just want to have a quick look, you can try the [Docker version](https://github.com/billzt/MiFish/blob/main/Docker.md)
+
+## External Dependencies
 Add these softwares to your system PATH. You can download all the external executable files [here](http://mitofish.aori.u-tokyo.ac.jp/species/detail/download/?filename=download/external_bin.zip)(except for MAFFT), or compile by yourself.
 * [fastp](https://github.com/OpenGene/fastp) (v0.23.2)
 * [FLASH](http://ccb.jhu.edu/software/FLASH/) (v1.2.7)
@@ -29,8 +32,7 @@ Add these softwares to your system PATH. You can download all the external execu
 * [Gblocks](https://home.cc.umanitoba.ca/~psgendb/doc/Castresana/Gblocks_documentation.html) (v0.91b)
 * [FastTreeMP](http://www.microbesonline.org/fasttree/) (v2.1.11)
 
-# Install
-Currently we only support Linux. Please use conda to manage the environment. If you do not have a Linux OS, or you just want to have a quick look, you can try the [Docker version](https://github.com/billzt/MiFish/blob/main/Docker.md)
+## Install Steps
 ```
 $ conda create -n MiFish python==3.9.13
 $ conda activate MiFish
@@ -53,7 +55,7 @@ In Ubuntu, the following library is also needed.
 sudo apt-get install -y libgl1
 ```
 
-# Test
+## Test
 ```
 $ cd test
 $ mifish seq mifishdbv3.83.fa -d seq2
