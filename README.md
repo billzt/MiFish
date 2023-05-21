@@ -30,7 +30,7 @@ Add these softwares to your system PATH. You can download all the external execu
 * [FastTreeMP](http://www.microbesonline.org/fasttree/) (v2.1.11)
 
 # Install
-Currently we only support Linux. Please use conda to manage the environment
+Currently we only support Linux. Please use conda to manage the environment. If you do not have a Linux OS, or you just want to have a quick look, you can try the [Docker version](https://github.com/billzt/MiFish/blob/main/Docker.md)
 ```
 $ conda create -n MiFish python==3.9.13
 $ conda activate MiFish
@@ -52,8 +52,6 @@ In Ubuntu, the following library is also needed.
 ```
 sudo apt-get install -y libgl1
 ```
-
-If you do not have a Linux OS, or you just want to have a quick look, you can try the [Docker version](https://github.com/billzt/MiFish/blob/main/Docker.md)
 
 # Test
 ```
