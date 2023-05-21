@@ -4,11 +4,12 @@ import re
 import sys
 from typing import Tuple
 
-def fetch(data_dirs:list, workdir:str)->Tuple[dict, dict]:
+def fetch(data_dirs:list, workdir:str)->Tuple[dict, dict, dict]:
     name2file = {}
     group_to_sample = {}
     group_rank = 1
     sample2type = {}
+    sample2file = {}
     for data_dir in data_dirs:
         sample2name_this_group = {}
         group_name = f'Group{group_rank}'
@@ -51,19 +52,22 @@ def fetch(data_dirs:list, workdir:str)->Tuple[dict, dict]:
                     file_extension = os.path.splitext(os.path.basename(file1))[1]
                     os.system(f'cp {file1} {workdir}/MiFishResult/data/{sample}.2.fq{file_extension}')
                 sample2type[sample] = 'pe'
+                sample2file[sample] = [f'{sample}.1.fq{file_extension}', f'{sample}.2.fq{file_extension}']
             else:
                 file1 = str(name2file[names[0]])
                 file_extension = os.path.splitext(os.path.basename(file1))[1]
                 if file1.endswith(f'fasta{file_extension}') or file1.endswith(f'fa{file_extension}') or file1.endswith(f'fas{file_extension}'):
                     os.system(f'cp {file1} {workdir}/MiFishResult/data/{sample}.fa{file_extension}')
                     sample2type[sample] = 'fa'
+                    sample2file[sample] = [f'{sample}.fa{file_extension}']
                 else:
                     os.system(f'cp {file1} {workdir}/MiFishResult/data/{sample}.fq{file_extension}')
                     sample2type[sample] = 'se'
+                    sample2file[sample] = [f'{sample}.fq{file_extension}']
             if group_name not in group_to_sample:
                 group_to_sample[group_name] = []
             group_to_sample[group_name].append(sample)
-    return (sample2type, group_to_sample)
+    return (sample2type, group_to_sample, sample2file)
 
 if __name__ == '__main__':
     print(fetch(['dummy/data']))

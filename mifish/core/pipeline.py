@@ -5,6 +5,7 @@ import math
 import time
 from glob import glob
 import csv
+import re
 
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 from Bio.Blast import NCBIXML
@@ -46,7 +47,7 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
 
     all_species = {}
     low_hit_amplicons = []
-    (sample2type, group_to_sample) = dataFile.fetch([data_dir] + data_dir_other_groups, workdir)
+    (sample2type, group_to_sample, sample2file) = dataFile.fetch([data_dir] + data_dir_other_groups, workdir)
     print(f'Detect your data as', file=sys.stderr)
     for (group, samples) in group_to_sample.items():
         print(f'#########', file=sys.stderr)
@@ -63,15 +64,16 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
         current_task = f'Sample {sample_name} Step 0: Decompress'
         if debug==True:
             print(current_task, file=sys.stderr)
-        files = glob(f'{workdir}/MiFishResult/data/{sample_name}*')
+        files = [f'{workdir}/MiFishResult/data/{x}' for x in sample2file[sample_name]]
         if input_type != 'fa':
             file_extension = os.path.splitext(os.path.basename(files[0]))[1]
-            for file in files:
+            for index, file in enumerate(files):
                 if file_extension=='.bz2':
                     os.system(f'bzip2 -d {file}')
+                    files[index] = re.sub(f'{file_extension}$', '', file)
                 if file_extension=='.xz':
                     os.system(f'xz -d {file}')
-            files = glob(f'{workdir}/MiFishResult/data/{sample_name}*')
+                    files[index] = re.sub(f'{file_extension}$', '', file)
 
         # Step 1: filter the quality of FASTQ and merge Pair-End Reads
         current_task = f'Sample {sample_name} Step 1: filter the quality of FASTQ and merge Pair-End Reads'
@@ -121,26 +123,6 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
                 else:
                     stat_data['read_num_before_quality_filter'] = int(lines[1].split(':')[1].strip())
                     stat_data['read_num_after_quality_filter'] = int(lines[7].split(':')[1].strip())
-            # if input_type == 'pe':
-            #     with open(f'{workdir_sample}/01_filter_fastq_and_merge/{sample_name}.flash.log') as handle:
-            #         assemble_percent = 0
-            #         for line in handle:
-            #             if 'Combined reads:' in line:
-            #                 stat_data['read_assemble'] = int(line.split()[3].strip())*2
-            #                 assemble_percent = stat_data['read_assemble']/stat_data['read_num_after_quality_filter']
-            #                 break
-            #         # if assemble_percent < 0.1:
-            #         #     current_message = f"Sample {sample_name} has too few assembled \
-            #         #         reads ({stat_data['read_assemble']}/{stat_data['read_num_after_quality_filter']}={assemble_percent:.1%}). Skip. \
-            #         #             If the length of your pair-end read is close to or longer than the length of amplicons, please combine the pair-end file into \
-            #         #                 a single one to treat them as single-end reads"
-            #         #     if debug==True:
-            #         #         print(current_message, file=sys.stderr)
-            #         #     else:
-            #         #         time.sleep(1)
-            #         #     continue
-            # else:
-            #     stat_data['read_assemble'] = stat_data['read_num_after_quality_filter']
         else:
             file_extension = os.path.splitext(os.path.basename(files[0]))[1]
             os.system(f'cp {files[0]} \
