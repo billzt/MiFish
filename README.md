@@ -53,6 +53,8 @@ In Ubuntu, the following library is also needed.
 sudo apt-get install -y libgl1
 ```
 
+If you do not have a Linux OS, or you just want to have a quick look, you can try the [Docker version](https://github.com/billzt/MiFish/blob/main/Docker.md)
+
 # Test
 ```
 $ cd test
