@@ -20,6 +20,7 @@ git clone https://github.com/billzt/MiFish.git
 cd MiFish/test
 
 # run
+# the first and second parameter must be in relative path starting from the current working directory
 docker run --rm --workdir=/home -v $(pwd):/home docker.io/taobioinfo/mifish seq mifishdbv3.83.fa -d seq2
 ```
 
