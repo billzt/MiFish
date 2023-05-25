@@ -5,8 +5,6 @@ This is the command line version of MiFish pipeline. It can also be used with an
 ## Announcement
 In the next release (probably in June or July), we will replace [FLASH](http://ccb.jhu.edu/software/FLASH/) and [USEARCH](https://www.drive5.com/usearch/) with [VSEARCH](https://github.com/torognes/vsearch) to suit non-MiFish primers' sequencing data better.
 
-We will also release a docker verison soon.
-
 # References
 If you use MiFish Pipeline in your projects, please cite:
 * Zhu T, Sato Y, Sado T, Miya M, and Iwasaki W. 2023. MitoFish, MitoAnnotator, and MiFish Pipeline: Updates in ten years.
