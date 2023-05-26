@@ -230,7 +230,7 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
         stat_data['haploid_num'] = int(os.popen(f'grep -c ">" {workdir_sample}/03_haploid/{sample_name}.sortsize.fasta').read().strip())
 
         # Step 4: BLAST and calculate LOD Score
-        current_task = f'Sample {sample_name} Step 4: BLAST and calculate LOD Score'
+        current_task = f'Sample {sample_name} Step 4: BLAST and calculate confidence score'
         if debug==True:
             print(current_task, file=sys.stderr)
         if os.path.isdir(f'{workdir_sample}/04_blast') is False:

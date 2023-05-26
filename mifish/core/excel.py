@@ -168,7 +168,7 @@ def taxonomy(workdir:str, sample2type:dict):
     # List of Sample Details
     worksheet = workbook.add_worksheet('List of Sample Details')
     
-    headers = 'Sample name	Species	Total read	Representative Sequence	Haploid ID	Size	Confidence	Identity(%)	LOD Score	Align Len	Mismatch	2nd-sp Name	2nd-sp Align Len	2nd-sp Mismatch	Sequence'.split('\t')
+    headers = 'Sample name	Species	Total read	Representative Sequence	Haploid ID	Size	Confidence	Identity(%)	Confidence Score	Align Len	Mismatch	2nd-sp Name	2nd-sp Align Len	2nd-sp Mismatch	Sequence'.split('\t')
     worksheet.set_column(0,0,30)
     worksheet.set_column(1,1,25)
     worksheet.set_column(2,2,10)
