@@ -63,7 +63,7 @@ There are [six files](#results) in the result directory `MiFishResult`
 # Parameters
 ## Mandatory
 ```
-$ mifish /path/to/your/amplicon/sequencing/directory/ /path/to/your/ref/db/
+$ mifish /path/to/your/amplicon/sequencing/directory/ /path/to/your/ref/db.fa
 ```
 ### Directory for amplicon sequencing data (FASTQ/FASTA)
 Since MiFish supports multi-sample analysis, amplicon sequencing data in compressed FASTQ/FASTA format should be put in directories. Pass the path of the directory as the first parameter.
