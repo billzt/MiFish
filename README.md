@@ -58,7 +58,7 @@ sudo apt-get install -y libgl1
 $ cd test
 $ mifish seq mifishdbv3.83.fa -d seq2
 ```
-There are [six files](#results) in the result directory `MiFishResult`
+There are [six files](#results) in the result directory `MiFishResult`. Note: `seq` and `seq2` are two directories with FQ files. 
 
 # Parameters
 ## Mandatory
