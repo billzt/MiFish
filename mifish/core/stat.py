@@ -72,15 +72,24 @@ def eco_diversity(workdir, group_to_sample) -> dict:
     all_species = []
     count_data = defaultdict(dict)
     diversity_result = defaultdict(dict)
+    count_valid_group = 0
     for (group, samples) in group_to_sample.items():
+        has_valid_samples_in_this_group = False
         for sample_name in samples:
-            all_samples.append(sample_name)
             workdir_sample = f'{workdir}/MiFishResult/Sample-{sample_name}'
+            if os.path.isfile(f'{workdir_sample}/04_blast/{sample_name}.json') is False:
+                continue
+            all_samples.append(sample_name)
+            has_valid_samples_in_this_group = True
             with open(f'{workdir_sample}/04_blast/{sample_name}.json') as handle:
                 abandance_data = json.load(handle)
                 for (tax_name, tax_info) in abandance_data.items():
                     all_species.append(tax_name)
                     count_data[sample_name][tax_name] = tax_info['total_read']
+        if has_valid_samples_in_this_group is True:
+            count_valid_group += 1
+    if count_valid_group < 2:
+        return {}
     all_species = list(set(all_species))
     data_for_diversity = [[count_data[x][y] if y in count_data[x] else 0 for y in all_species] for x in all_samples]
     diversity_result['alpha']['simpson'] = dict(diversity.alpha_diversity('simpson', data_for_diversity, all_samples, validate=False))
