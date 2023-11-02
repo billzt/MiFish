@@ -158,17 +158,6 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
                         continue
                     stat_data['read_without_N'] += 1
                     print(f'>{title}\n{seq}', file=out_handle)
-                    # if min_read_length <= len(seq) <=  max_read_length:
-                    #     stat_data['read_fit_length'] += 1
-                    #     print(f'>{title}\n{seq}', file=out_handle)
-        # if stat_data['read_fit_length'] < 10:
-        #     # This sample has not passed length filter
-        #     current_message = f'Sample {sample_name} has not passed read length filter. Skip'
-        #     if debug==True:
-        #         print(current_message, file=sys.stderr)
-        #     else:
-        #         time.sleep(1)
-        #     continue
         
         os.system(f'cutadapt -g "{rm_p_5};max_error_rate=0.15...{rm_p_3};max_error_rate=0.15" --revcomp -j {cpu} \
             {workdir_sample}/02_process_fasta/{sample_name}.excludeN.fa --discard-untrimmed -m {min_read_length-len(rm_p_5)-len(rm_p_3)} -M {max_read_length-len(rm_p_5)-len(rm_p_3)} \
@@ -192,15 +181,14 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
         stat_data['haploid_num'] = 0
         if os.path.isdir(f'{workdir_sample}/03_haploid') is False:
             os.makedirs(f'{workdir_sample}/03_haploid')
-        os.system(f'usearch -fastx_uniques {workdir_sample}/02_process_fasta/{sample_name}.processed.fa \
-            -sizeout -relabel Uniq -fastaout {workdir_sample}/03_haploid/{sample_name}.derep.fasta -threads {cpu} \
+        os.system(f'vsearch --fastx_uniques {workdir_sample}/02_process_fasta/{sample_name}.processed.fa \
+            --sizeout --relabel Uniq --fastaout {workdir_sample}/03_haploid/{sample_name}.derep.fasta \
                 >{workdir_sample}/03_haploid/{sample_name}.fastx_uniques.log 2>&1')
-        os.system(f'usearch -unoise3 {workdir_sample}/03_haploid/{sample_name}.derep.fasta \
-            -zotus {workdir_sample}/03_haploid/{sample_name}.zotus.fasta -threads {cpu} \
-                -tabbedout {workdir_sample}/03_haploid/{sample_name}.zotus.details.txt -minsize {unoise_min} \
+        os.system(f'vsearch --cluster_unoise {workdir_sample}/03_haploid/{sample_name}.derep.fasta --sizein --sizeout --sizeorder \
+            --strand both --centroids {workdir_sample}/03_haploid/{sample_name}.centroids.fasta --threads {cpu} --minsize {unoise_min} \
                     >{workdir_sample}/03_haploid/{sample_name}.unoise3.log 2>&1')
-        if os.path.isfile(f'{workdir_sample}/03_haploid/{sample_name}.zotus.details.txt') is None \
-            or os.path.getsize(f'{workdir_sample}/03_haploid/{sample_name}.zotus.details.txt')==0:
+        if os.path.isfile(f'{workdir_sample}/03_haploid/{sample_name}.centroids.fasta') is False \
+            or os.path.getsize(f'{workdir_sample}/03_haploid/{sample_name}.centroids.fasta')==0:
             # This sample has no haploids
             current_message = f'Sample {sample_name} has no haploids. Skip'
             if debug==True:
@@ -208,13 +196,13 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
             else:
                 time.sleep(1)
             continue
-        os.system(f'usearch -otutab {workdir_sample}/02_process_fasta/{sample_name}.processed.fa \
-            -zotus {workdir_sample}/03_haploid/{sample_name}.zotus.fasta -threads {cpu} \
-                -otutabout {workdir_sample}/03_haploid/{sample_name}.zotus.size.txt \
+        os.system(f'vsearch --uchime3_denovo {workdir_sample}/03_haploid/{sample_name}.centroids.fasta --sizein --sizeout \
+                  --nonchimeras {workdir_sample}/03_haploid/{sample_name}.zotus.fasta --relabel Zotu \
+                    >{workdir_sample}/03_haploid/{sample_name}.uchime3.log 2>&1')
+        os.system(f'vsearch --usearch_global {workdir_sample}/03_haploid/{sample_name}.derep.fasta \
+            --db {workdir_sample}/03_haploid/{sample_name}.zotus.fasta --id 0.97 --sizein --sizeout --threads {cpu} \
+                --strand both --dbmatched {workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta \
                     >{workdir_sample}/03_haploid/{sample_name}.otutab.log 2>&1')
-        sizeFasIntegrator.run(zotusCountFile=f'{workdir_sample}/03_haploid/{sample_name}.zotus.size.txt', \
-            zotusFaFile=f'{workdir_sample}/03_haploid/{sample_name}.zotus.fasta', \
-                resultFile=f'{workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta')
         if os.path.getsize(f'{workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta') == 0:
             # This sample has no haploids
             current_message = f'Sample {sample_name} has no haploids. Skip'
@@ -223,11 +211,9 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
             else:
                 time.sleep(1)
             continue
-        os.system(f'usearch -sortbysize {workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta \
-            -fastaout {workdir_sample}/03_haploid/{sample_name}.sortsize.fasta -threads {cpu} \
-                >{workdir_sample}/03_haploid/{sample_name}.sortbysize.log 2>&1')
+
         stat_data['uniq_read_num'] = int(os.popen(f'grep -c ">" {workdir_sample}/03_haploid/{sample_name}.derep.fasta').read().strip())
-        stat_data['haploid_num'] = int(os.popen(f'grep -c ">" {workdir_sample}/03_haploid/{sample_name}.sortsize.fasta').read().strip())
+        stat_data['haploid_num'] = int(os.popen(f'grep -c ">" {workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta').read().strip())
 
         # Step 4: BLAST and calculate LOD Score
         current_task = f'Sample {sample_name} Step 4: BLAST and calculate confidence score'
@@ -235,17 +221,17 @@ def runMiFish(data_dir:str, data_dir_other_groups:list, min_read_length=204, max
             print(current_task, file=sys.stderr)
         if os.path.isdir(f'{workdir_sample}/04_blast') is False:
             os.makedirs(f'{workdir_sample}/04_blast')
-        os.system(f'blastn -num_threads {cpu} -query {workdir_sample}/03_haploid/{sample_name}.sortsize.fasta -db {db} \
+        os.system(f'blastn -num_threads {cpu} -query {workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta -db {db} \
             -max_target_seqs 5 -evalue 0.00001 -outfmt 5 -qcov_hsp_perc 90 \
                 -out {workdir_sample}/04_blast/{sample_name}.xml')
         query_seq_obj = {}
-        with open(f'{workdir_sample}/03_haploid/{sample_name}.sortsize.fasta') as handle:
+        with open(f'{workdir_sample}/03_haploid/{sample_name}.zotus.size.fasta') as handle:
             for (title, seq) in SimpleFastaParser(handle):
                 query_seq_obj[title] = seq
         species2amplicon = {}
         with open(f'{workdir_sample}/04_blast/{sample_name}.xml') as handle:
             for blast_record in NCBIXML.parse(handle):
-                query_seq = query_seq_obj[blast_record.query+';']
+                query_seq = query_seq_obj[blast_record.query]
                 (query, size) = blast_record.query.split(';')
                 size = int(size.replace('size=', ''))
                 top_hit = {}

@@ -1,9 +1,8 @@
 from setuptools import setup, find_packages
-
-version = '1.0'
+from mifish.core import version
 
 setup(name='mifish',
-      version=version,
+      version=version.get(),
       description="the command line version of MiFish pipeline. It can also be used with any other eDNA meta-barcoding primers",
       classifiers=[
           'Development Status :: 5 - Production/Stable',
