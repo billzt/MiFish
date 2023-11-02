@@ -20,6 +20,7 @@ import os
 from Bio.Seq import Seq
 
 from mifish.core import pipeline, version
+from packaging.version import Version
 
 parser = argparse.ArgumentParser(description='the command line version of MiFish pipeline. \
     It can also be used with any other eDNA meta-barcoding primers', \
@@ -64,7 +65,12 @@ def main():
         if app != 0:
             print(f'Error: no {external_bin} in your system', file=sys.stderr)
             exit(1)
-
+    
+    app = subprocess.Popen('vsearch --version', shell=True, stdout=subprocess.PIPE, \
+                           stderr=subprocess.STDOUT, encoding='utf-8').communicate()[0].split('\n')[0].split()[1].split('_')[0]
+    if Version(app) < Version('2.23.0'):
+        print(f'ERROR: The version of vsearch(v{app}) is lower than v2.23.0', file=sys.stderr)
+        exit(1)
     if os.path.isdir(args.output_dir) is False:
         os.system(f'mkdir {args.output_dir}')
     if os.path.isdir(f'{args.output_dir}/MiFishResult') is False:
