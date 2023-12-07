@@ -29,20 +29,21 @@ Add these softwares to your system PATH. You can download all the external execu
 
 ## Install Steps
 ```
-$ conda create -n MiFish python==3.9.13
-$ conda activate MiFish
-$ pip3 install numpy==1.23.1
-$ pip3 install scikit-bio==0.5.6
-$ pip3 install PyQt5==5.15.7
-$ pip3 install ete3==3.1.2
-$ pip3 install duckdb==0.6.1
-$ pip3 install XlsxWriter==3.0.3
-$ pip3 install cutadapt==4.1
-$ pip3 install biopython==1.79
-$ git clone https://github.com/billzt/MiFish.git
-$ cd MiFish
-$ python3 setup.py develop
-$ mifish -h
+conda create -n MiFish python==3.9.13
+conda activate MiFish
+pip3 install numpy==1.23.1
+pip3 install scikit-bio==0.5.6
+pip3 install PyQt5==5.15.7
+pip3 install ete3==3.1.2
+pip3 install duckdb==0.6.1
+pip3 install XlsxWriter==3.0.3
+pip3 install cutadapt==4.1
+pip3 install biopython==1.79
+git clone https://github.com/billzt/MiFish.git
+cd MiFish
+git checkout vsearch
+python3 setup.py develop
+mifish -h
 ```
 
 In Ubuntu, the following library is also needed.
@@ -52,15 +53,15 @@ sudo apt-get install -y libgl1
 
 ## Test
 ```
-$ cd test
-$ mifish seq mifishdbv3.83.fa -d seq2
+cd test
+mifish seq mifishdbv3.83.fa -d seq2
 ```
 There are [six files](#results) in the result directory `MiFishResult`. Note: `seq` and `seq2` are two directories with FQ files. 
 
 # Parameters
 ## Mandatory
 ```
-$ mifish /path/to/your/amplicon/sequencing/directory/ /path/to/your/ref/db.fa
+mifish /path/to/your/amplicon/sequencing/directory/ /path/to/your/ref/db.fa
 ```
 ### Directory for amplicon sequencing data (FASTQ/FASTA)
 Since MiFish supports multi-sample analysis, amplicon sequencing data in compressed FASTQ/FASTA format should be put in directories. Pass the path of the directory as the first parameter.
