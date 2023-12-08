@@ -3,7 +3,7 @@
 This is the command line version of MiFish pipeline. It can also be used with any other eDNA meta-barcoding primers
 
 ## Announcement
-In the next release (probably in June or July), we will replace [FLASH](http://ccb.jhu.edu/software/FLASH/) and [USEARCH](https://www.drive5.com/usearch/) with [VSEARCH](https://github.com/torognes/vsearch) to suit non-MiFish primers' sequencing data better.
+We have released the VSEARCH version at https://github.com/billzt/MiFish/tree/vsearch, and will merge into the main branch after enough tests and feedbacks.
 
 # References
 If you use MiFish Pipeline in your projects, please cite:
