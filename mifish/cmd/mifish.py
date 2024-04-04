@@ -7,7 +7,6 @@ Command line of MiFish
 __author__ = 'Tao Zhu'
 __copyright__ = 'Copyright 2023'
 __license__ = 'GPL'
-__version__ = '1.0'
 __email__ = 'zhutao@edu.k.u-tokyo.ac.jp'
 __status__ = 'Production'
 
@@ -20,7 +19,8 @@ import os
 
 from Bio.Seq import Seq
 
-from mifish.core import pipeline
+from mifish.core import pipeline, version
+from packaging.version import Version
 
 parser = argparse.ArgumentParser(description='the command line version of MiFish pipeline. \
     It can also be used with any other eDNA meta-barcoding primers', \
@@ -38,7 +38,8 @@ parser.add_argument('-i', '--blast-min-identity', help='Minimum identity (percen
 parser.add_argument('-s', '--skip-downstream-analysis', help='Skip abandance statics, phylogenetic and bio-diversity analysis', action='store_true')
 parser.add_argument('-k', '--keep-tmp-files', help='Keep temporary files', action='store_true')
 parser.add_argument('-o', '--output-dir', help='directory for output', default='.')
-parser.add_argument('-t', '--threads', help='number of threads for BLASTN and usearch', type=int, default=2)
+parser.add_argument('-t', '--threads', help='number of threads for BLASTN and vsearch', type=int, default=2)
+parser.add_argument('-v', '--version', action='version', version='%(prog)s '+version.get())
 args = parser.parse_args()
 
 def main():
@@ -59,12 +60,17 @@ def main():
         os.system(f'rm -rf {args.output_dir}/MiFishResult')
     
 
-    for external_bin in 'Gblocks mafft FastTreeMP blastn fastp seqkit usearch flash'.split():
+    for external_bin in 'Gblocks mafft FastTreeMP blastn fastp seqkit vsearch flash'.split():
         app = os.system(f'which {external_bin} >/dev/null 2>&1')
         if app != 0:
             print(f'Error: no {external_bin} in your system', file=sys.stderr)
             exit(1)
-
+    
+    app = subprocess.Popen('vsearch --version', shell=True, stdout=subprocess.PIPE, \
+                           stderr=subprocess.STDOUT, encoding='utf-8').communicate()[0].split('\n')[0].split()[1].split('_')[0]
+    if Version(app) < Version('2.23.0'):
+        print(f'ERROR: The version of vsearch(v{app}) is lower than v2.23.0', file=sys.stderr)
+        exit(1)
     if os.path.isdir(args.output_dir) is False:
         os.system(f'mkdir {args.output_dir}')
     if os.path.isdir(f'{args.output_dir}/MiFishResult') is False:
