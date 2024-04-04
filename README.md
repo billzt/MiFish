@@ -17,7 +17,7 @@ If you use MiFish Primers in your projects, please cite:
 Currently we only support Linux. Please use conda to manage the environment. If you do not have a Linux OS, or you just want to have a quick look, you can try the [Docker version](https://github.com/billzt/MiFish/blob/main/Docker.md)
 
 ## External Dependencies
-Add these softwares to your system PATH. You can download all the external executable files [here](http://mitofish.aori.u-tokyo.ac.jp/species/detail/download/?filename=download/external_bin.zip)(except for MAFFT), or compile by yourself.
+Add these softwares to your system PATH. You can download all the external executable files [here](https://mitofish.aori.u-tokyo.ac.jp/species/detail/download/?filename=download/external_bin.zip)(except for MAFFT), or compile by yourself.
 * [fastp](https://github.com/OpenGene/fastp) (v0.23.2)
 * [FLASH](http://ccb.jhu.edu/software/FLASH/) (v1.2.7)
 * [seqkit](https://github.com/shenwei356/seqkit/) (v2.3.0)
@@ -65,7 +65,7 @@ mifish /path/to/your/amplicon/sequencing/directory/ /path/to/your/ref/db.fa
 ```
 ### Directory for amplicon sequencing data (FASTQ/FASTA)
 Since MiFish supports multi-sample analysis, amplicon sequencing data in compressed FASTQ/FASTA format should be put in directories. Pass the path of the directory as the first parameter.
-Refer to [MiFish's Homepage](http://mitofish.aori.u-tokyo.ac.jp/mifish/) to see the rules of filenames. Here are some examples:
+Refer to [MiFish's Homepage](https://mitofish.aori.u-tokyo.ac.jp/mifish/) to see the rules of filenames. Here are some examples:
 * `MiFish-example-02_S73_L001_R1_001.fastq.gz`
 * `MiFish-example-02_S73_L001_R2_001.fastq.gz`
 * `DRR126155_1.fastq.bz2`
@@ -181,7 +181,7 @@ tree.zip (if not using -s)
 relative_abandance.json  (if not using -s)
 diversity.json  (if not using -s but using -d)
 ```
-The first four files are the same as the web version of [MiFish](http://mitofish.aori.u-tokyo.ac.jp/mifish/). (Screenshots were from DRR126155 against refDB v3.83)
+The first four files are the same as the web version of [MiFish](https://mitofish.aori.u-tokyo.ac.jp/mifish/). (Screenshots were from DRR126155 against refDB v3.83)
 
 ![QC](https://user-images.githubusercontent.com/1146090/219991073-45f3be06-7610-47fa-9ab3-026711a14114.jpg)
 ![Species](https://user-images.githubusercontent.com/1146090/219991113-e4dd08ad-ecc2-444a-ad55-d97dd22105de.jpg)
