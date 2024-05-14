@@ -41,7 +41,6 @@ pip3 install cutadapt==4.1
 pip3 install biopython==1.79
 git clone https://github.com/billzt/MiFish.git
 cd MiFish
-git checkout vsearch
 python3 setup.py develop
 mifish -h
 ```
